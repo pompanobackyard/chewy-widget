@@ -4,11 +4,6 @@
   <meta charset="UTF-8">
   <title>Chewy Widget</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-    }
-
     #chewy-chatbot {
       position: fixed;
       bottom: 20px;
@@ -18,28 +13,24 @@
     }
 
     #chewy-icon {
-      cursor: pointer;
-      animation: floaty 3s ease-in-out infinite;
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
       overflow: hidden;
       background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      animation: floaty 3s ease-in-out infinite, headShake 6s ease-in-out infinite;
     }
 
     #chewy-icon img {
-      width: 90%;
-      height: 90%;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
     }
 
     #chewy-chatbox {
       display: none;
-      margin-top: 10px;
       width: 320px;
       min-height: 420px;
       background: #fff;
@@ -47,22 +38,17 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.2);
       padding: 16px;
       box-sizing: border-box;
+      margin-top: 12px;
       position: relative;
     }
 
-    #close-chat {
+    #chewy-chatbox .close-btn {
       position: absolute;
       top: 8px;
       right: 12px;
-      background: none;
-      border: none;
-      font-size: 20px;
+      font-size: 18px;
       cursor: pointer;
-    }
-
-    @keyframes floaty {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px) rotateZ(1deg); }
+      color: #888;
     }
 
     #chat-messages {
@@ -73,107 +59,62 @@
       padding: 8px;
       font-size: 14px;
       line-height: 1.8;
+      margin-top: 30px;
     }
 
-    #user-input {
-      flex: 1;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 6px;
-      font-size: 14px;
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
 
-    #send-btn {
-      margin-left: 8px;
-      padding: 6px 12px;
-      background: #ea580c;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-
-    .input-row {
-      margin-top: 8px;
-      display: flex;
+    @keyframes headShake {
+      0%, 100% { transform: rotate(0); }
+      40% { transform: rotate(-3deg); }
+      60% { transform: rotate(3deg); }
     }
   </style>
 </head>
 <body>
 
 <div id="chewy-chatbot">
-  <!-- Chewy Icon -->
   <div id="chewy-icon">
     <img src="https://pompanobackyard.github.io/chewy-widget/chewy-icon.png" alt="Chewy the Shiba">
   </div>
-
-  <!-- Chatbox -->
   <div id="chewy-chatbox">
-    <button id="close-chat">&times;</button>
+    <div class="close-btn" onclick="toggleChat()">✖</div>
     <div style="font-weight: bold; font-size: 16px; color: #ea580c; margin-bottom: 8px;">Hi, I'm Chewy! 🦊</div>
     <div id="chat-messages"></div>
-    <div class="input-row">
-      <input type="text" id="user-input" placeholder="Message Chewy...">
-      <button id="send-btn">Send</button>
+    <div style="margin-top: 8px; display: flex;">
+      <input type="text" id="user-input" placeholder="Ask me anything..." style="flex: 1; border: 1px solid #ccc; border-radius: 8px; padding: 6px; font-size: 14px;">
+      <button onclick="handleSend()" style="margin-left: 8px; padding: 6px 12px; background: #ea580c; color: white; border: none; border-radius: 8px; font-size: 14px;">Send</button>
     </div>
   </div>
 </div>
 
 <script>
-  const responses = {
-    en: {
-      greetings: "Hi there! 🐾 I'm Chewy. How can I help you today?",
-      default: "I'm not sure how to help with that 🐶 — but you can explore more at <a href='https://www.pompanobackyard.com' target='_blank'>our website</a>!"
-    },
-    pt: {
-      greetings: "Olá! 🐶 Eu sou o Chewy. Como posso te ajudar hoje?",
-      default: "Hmm... não entendi bem 😅. Mas você pode visitar nosso site: <a href='https://www.pompanobackyard.com' target='_blank'>pompanobackyard.com</a>"
-    }
-  };
+  const chewyIcon = document.getElementById("chewy-icon");
+  const chatbox = document.getElementById("chewy-chatbox");
 
-  function detectLang(text) {
-    return /[áéíóúãõêç]/i.test(text) || /(oi|olá|suíte|reserva|praia|desconto)/i.test(text) ? "pt" : "en";
+  chewyIcon.addEventListener("click", () => {
+    chatbox.style.display = chatbox.style.display === "none" ? "block" : "none";
+  });
+
+  function toggleChat() {
+    chatbox.style.display = "none";
   }
-
-  function getResponse(input) {
-    const lang = detectLang(input);
-    const msg = input.toLowerCase();
-    const r = responses[lang];
-
-    if (["hi", "hello", "oi", "olá"].some(w => msg.includes(w))) return r.greetings;
-    return r.default;
-  }
-
-  // Toggle chat
-  document.getElementById("chewy-icon").addEventListener("click", () => {
-    const box = document.getElementById("chewy-chatbox");
-    box.style.display = box.style.display === "none" ? "block" : "none";
-  });
-
-  document.getElementById("close-chat").addEventListener("click", () => {
-    document.getElementById("chewy-chatbox").style.display = "none";
-  });
-
-  document.getElementById("send-btn").addEventListener("click", handleSend);
-  document.getElementById("user-input").addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleSend();
-    }
-  });
 
   function handleSend() {
     const input = document.getElementById("user-input").value.trim();
     if (!input) return;
     addMessage("You", input);
     document.getElementById("user-input").value = "";
-    const reply = getResponse(input);
-    addMessage("Chewy 🦊", reply);
+    // Temporário: resposta mock
+    addMessage("Chewy 🦊", "I'm just a fluffy assistant for now! 🐾");
   }
 
   function addMessage(sender, text) {
     const msg = document.createElement("div");
-    msg.style.marginBottom = "20px";
+    msg.style.marginBottom = "16px";
     msg.innerHTML = `<strong>${sender}:</strong><br>${text}`;
     const container = document.getElementById("chat-messages");
     container.appendChild(msg);
