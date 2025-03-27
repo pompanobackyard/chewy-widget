@@ -1,94 +1,185 @@
-<!-- chewyWidget.html -->
-<div id="chewy-chatbot" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; font-family: sans-serif;">
-  <!-- Ícone do Chewy atualizado com orelhas visíveis -->
-<div id="chewy-icon" style="
-  cursor: pointer;
-  animation: floaty 3s ease-in-out infinite;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  overflow: hidden;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-">
-  <img src="https://pompanobackyard.github.io/chewy-widget/chewy-icon.png"
-       alt="Chewy the Shiba"
-       style="width: 90%; height: 90%; object-fit: contain;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chewy Widget</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #chewy-chatbot {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 9999;
+      font-family: sans-serif;
+    }
+
+    #chewy-icon {
+      cursor: pointer;
+      animation: floaty 3s ease-in-out infinite;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      overflow: hidden;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #chewy-icon img {
+      width: 90%;
+      height: 90%;
+      object-fit: contain;
+    }
+
+    #chewy-chatbox {
+      display: none;
+      margin-top: 10px;
+      width: 320px;
+      min-height: 420px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      padding: 16px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    #close-chat {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px) rotateZ(1deg); }
+    }
+
+    #chat-messages {
+      height: 260px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    #user-input {
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 6px;
+      font-size: 14px;
+    }
+
+    #send-btn {
+      margin-left: 8px;
+      padding: 6px 12px;
+      background: #ea580c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .input-row {
+      margin-top: 8px;
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+
+<div id="chewy-chatbot">
+  <!-- Chewy Icon -->
+  <div id="chewy-icon">
+    <img src="https://pompanobackyard.github.io/chewy-widget/chewy-icon.png" alt="Chewy the Shiba">
+  </div>
+
+  <!-- Chatbox -->
+  <div id="chewy-chatbox">
+    <button id="close-chat">&times;</button>
+    <div style="font-weight: bold; font-size: 16px; color: #ea580c; margin-bottom: 8px;">Hi, I'm Chewy! 🦊</div>
+    <div id="chat-messages"></div>
+    <div class="input-row">
+      <input type="text" id="user-input" placeholder="Message Chewy...">
+      <button id="send-btn">Send</button>
+    </div>
+  </div>
 </div>
 
-<!-- Flutuação e movimento -->
-<style>
-@keyframes floaty {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(-3px) rotate(-2deg); }
-  75% { transform: translateY(3px) rotate(2deg); }
-}
-</style>
-
 <script>
-const responses = {
-  en: {
-    greetings: "Hi there! 🐾 I'm Chewy. How can I help you today?",
-    default: "Hmm... I didn’t get that. 🐶 Try asking about our suites, chauffeur service, or visit our site: <a href='https://www.pompanobackyard.com' target='_blank'>pompanobackyard.com</a>"
-  },
-  pt: {
-    greetings: "Olá! 🐶 Eu sou o Chewy. Como posso te ajudar hoje?",
-    default: "Hmm... não entendi muito bem 😅. Você pode perguntar sobre as suítes, transfers ou acessar: <a href='https://www.pompanobackyard.com' target='_blank'>pompanobackyard.com</a>"
+  const responses = {
+    en: {
+      greetings: "Hi there! 🐾 I'm Chewy. How can I help you today?",
+      default: "I'm not sure how to help with that 🐶 — but you can explore more at <a href='https://www.pompanobackyard.com' target='_blank'>our website</a>!"
+    },
+    pt: {
+      greetings: "Olá! 🐶 Eu sou o Chewy. Como posso te ajudar hoje?",
+      default: "Hmm... não entendi bem 😅. Mas você pode visitar nosso site: <a href='https://www.pompanobackyard.com' target='_blank'>pompanobackyard.com</a>"
+    }
+  };
+
+  function detectLang(text) {
+    return /[áéíóúãõêç]/i.test(text) || /(oi|olá|suíte|reserva|praia|desconto)/i.test(text) ? "pt" : "en";
   }
-};
 
-function detectLang(text) {
-  return /[áéíóúãõêç]/i.test(text) || /(oi|olá|suíte|reserva|praia|desconto)/i.test(text) ? "pt" : "en";
-}
+  function getResponse(input) {
+    const lang = detectLang(input);
+    const msg = input.toLowerCase();
+    const r = responses[lang];
 
-function getResponse(input) {
-  const lang = detectLang(input);
-  const msg = input.toLowerCase();
-  const r = responses[lang];
-
-  if (["hi", "hello", "oi", "olá"].some(w => msg.includes(w))) return r.greetings;
-
-  return r.default;
-}
-
-// Toggle caixa de chat
-document.getElementById("chewy-icon").addEventListener("click", () => {
-  const chatbox = document.getElementById("chewy-chatbox");
-  chatbox.style.display = chatbox.style.display === "none" ? "block" : "none";
-});
-
-// Botão de fechar
-document.getElementById("close-chat").addEventListener("click", () => {
-  document.getElementById("chewy-chatbox").style.display = "none";
-});
-
-// Enviar mensagens
-document.getElementById("send-btn").addEventListener("click", handleSend);
-document.getElementById("user-input").addEventListener("keydown", function (e) {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    handleSend();
+    if (["hi", "hello", "oi", "olá"].some(w => msg.includes(w))) return r.greetings;
+    return r.default;
   }
-});
 
-function handleSend() {
-  const input = document.getElementById("user-input").value.trim();
-  if (!input) return;
-  addMessage("You", input);
-  document.getElementById("user-input").value = "";
-  const reply = getResponse(input);
-  addMessage("Chewy 🦊", reply);
-}
+  // Toggle chat
+  document.getElementById("chewy-icon").addEventListener("click", () => {
+    const box = document.getElementById("chewy-chatbox");
+    box.style.display = box.style.display === "none" ? "block" : "none";
+  });
 
-function addMessage(sender, text) {
-  const msg = document.createElement("div");
-  msg.style.marginBottom = "16px";
-  msg.innerHTML = `<strong>${sender}:</strong><br>${text}`;
-  const container = document.getElementById("chat-messages");
-  container.appendChild(msg);
-  container.scrollTop = container.scrollHeight;
-}
+  document.getElementById("close-chat").addEventListener("click", () => {
+    document.getElementById("chewy-chatbox").style.display = "none";
+  });
+
+  document.getElementById("send-btn").addEventListener("click", handleSend);
+  document.getElementById("user-input").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSend();
+    }
+  });
+
+  function handleSend() {
+    const input = document.getElementById("user-input").value.trim();
+    if (!input) return;
+    addMessage("You", input);
+    document.getElementById("user-input").value = "";
+    const reply = getResponse(input);
+    addMessage("Chewy 🦊", reply);
+  }
+
+  function addMessage(sender, text) {
+    const msg = document.createElement("div");
+    msg.style.marginBottom = "20px";
+    msg.innerHTML = `<strong>${sender}:</strong><br>${text}`;
+    const container = document.getElementById("chat-messages");
+    container.appendChild(msg);
+    container.scrollTop = container.scrollHeight;
+  }
 </script>
+
+</body>
+</html>
