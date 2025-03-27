@@ -1,180 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chewy Widget</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      background-color: transparent;
-    }
-
-    #chewy-container {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      font-family: sans-serif;
-      animation: slideIn 0.8s ease-out;
-    }
-
-    @keyframes slideIn {
-      from {
-        transform: translateY(50px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    #chewy-mascot {
-      width: 80px;
-      height: auto;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    #chewy-mascot:hover {
-      transform: scale(1.05);
-    }
-
-    #chewy-chatbox {
-      display: none;
-      margin-top: 10px;
-      width: 300px;
-      min-height: 400px;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-      padding: 16px;
-      box-sizing: border-box;
-    }
-
-    #chewy-chatbox-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-      font-size: 16px;
-      color: #ea580c;
-      margin-bottom: 8px;
-    }
-
-    #chewy-close {
-      cursor: pointer;
-      font-size: 18px;
-      color: #999;
-    }
-
-    #chat-messages {
-      height: 250px;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 8px;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    #chat-input {
-      margin-top: 8px;
-      display: flex;
-    }
-
-    #user-input {
-      flex: 1;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 6px;
-      font-size: 14px;
-    }
-
-    #send-btn {
-      margin-left: 8px;
-      padding: 6px 12px;
-      background: #ea580c;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    /* Remove unexpected line */
-    img {
-      display: block;
-    }
-  </style>
-</head>
-<body>
-
-  <div id="chewy-container">
-    <img id="chewy-mascot" src="https://raw.githubusercontent.com/pompanobackyard/chewy-widget/main/chewy-mascot-final.png" alt="Chewy the Shiba" />
-    
-    <div id="chewy-chatbox">
-      <div id="chewy-chatbox-header">
-        Hi, I'm Chewy! 🦊
-        <span id="chewy-close">&times;</span>
-      </div>
-      <div id="chat-messages"></div>
-      <div id="chat-input">
-        <input type="text" id="user-input" placeholder="Ask me anything..." />
-        <button id="send-btn">Send</button>
-      </div>
-    </div>
+<!-- chewyWidget.html -->
+<div id="chewy-chatbot" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; font-family: sans-serif;">
+  <!-- Ícone do Chewy -->
+  <div id="chewy-icon" style="cursor: pointer; animation: floaty 3s ease-in-out infinite; width: 64px; height: 64px; border-radius: 50%; box-shadow: 0 0 10px rgba(0,0,0,0.2); overflow: hidden; background: white;">
+    <img src="https://pompanobackyard.github.io/chewy-widget/chewy-icon.png" alt="Chewy the Shiba" style="width: 100%; height: 100%; object-fit: cover;">
   </div>
 
-  <script>
-    const responses = {
-      greetings: "Hi there! I'm Chewy. How can I help you today? 🧡",
-      default: "Hmm... I'm not sure about that 🐶 Try asking about our suites or chauffeur service!"
-    };
+  <!-- Caixa de Chat -->
+  <div id="chewy-chatbox" style="display: none; margin-top: 10px; width: 320px; min-height: 420px; background: #fff; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.2); padding: 16px; box-sizing: border-box; position: relative;">
+    <!-- Botão X -->
+    <div id="close-chat" style="position: absolute; top: 10px; right: 12px; font-size: 18px; cursor: pointer; color: #999;">✖</div>
 
-    document.getElementById("chewy-mascot").addEventListener("click", () => {
-      const box = document.getElementById("chewy-chatbox");
-      box.style.display = box.style.display === "none" || box.style.display === "" ? "block" : "none";
-    });
+    <div style="font-weight: bold; font-size: 16px; color: #ea580c; margin-bottom: 8px;">Hi, I'm Chewy! 🦊</div>
+    <div id="chat-messages" style="height: 260px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px; padding: 8px; font-size: 14px; line-height: 1.6;"></div>
 
-    document.getElementById("chewy-close").addEventListener("click", () => {
-      document.getElementById("chewy-chatbox").style.display = "none";
-    });
+    <div style="margin-top: 8px; display: flex;">
+      <input type="text" id="user-input" placeholder="Message Chewy..." style="flex: 1; border: 1px solid #ccc; border-radius: 8px; padding: 6px; font-size: 14px;">
+      <button id="send-btn" style="margin-left: 8px; padding: 6px 12px; background: #ea580c; color: white; border: none; border-radius: 8px; font-size: 14px;">➤</button>
+    </div>
+  </div>
+</div>
 
-    document.getElementById("send-btn").addEventListener("click", handleSend);
-    document.getElementById("user-input").addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        handleSend();
-      }
-    });
+<!-- Flutuação e movimento -->
+<style>
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-3px) rotate(-2deg); }
+  75% { transform: translateY(3px) rotate(2deg); }
+}
+</style>
 
-    function handleSend() {
-      const input = document.getElementById("user-input").value.trim();
-      if (!input) return;
-      addMessage("You", input);
-      document.getElementById("user-input").value = "";
-      let reply = responses.default;
-      if (["hi", "hello", "oi", "olá"].some(greet => input.toLowerCase().includes(greet))) {
-        reply = responses.greetings;
-      }
-      addMessage("Chewy 🦊", reply);
-    }
+<script>
+const responses = {
+  en: {
+    greetings: "Hi there! 🐾 I'm Chewy. How can I help you today?",
+    default: "Hmm... I didn’t get that. 🐶 Try asking about our suites, chauffeur service, or visit our site: <a href='https://www.pompanobackyard.com' target='_blank'>pompanobackyard.com</a>"
+  },
+  pt: {
+    greetings: "Olá! 🐶 Eu sou o Chewy. Como posso te ajudar hoje?",
+    default: "Hmm... não entendi muito bem 😅. Você pode perguntar sobre as suítes, transfers ou acessar: <a href='https://www.pompanobackyard.com' target='_blank'>pompanobackyard.com</a>"
+  }
+};
 
-    function addMessage(sender, text) {
-      const msg = document.createElement("div");
-      msg.style.marginBottom = "20px";
-      msg.innerHTML = `<strong>${sender}:</strong><br>${text}`;
-      const container = document.getElementById("chat-messages");
-      container.appendChild(msg);
-      container.scrollTop = container.scrollHeight;
-    }
-  </script>
-</body>
-</html>
+function detectLang(text) {
+  return /[áéíóúãõêç]/i.test(text) || /(oi|olá|suíte|reserva|praia|desconto)/i.test(text) ? "pt" : "en";
+}
+
+function getResponse(input) {
+  const lang = detectLang(input);
+  const msg = input.toLowerCase();
+  const r = responses[lang];
+
+  if (["hi", "hello", "oi", "olá"].some(w => msg.includes(w))) return r.greetings;
+
+  return r.default;
+}
+
+// Toggle caixa de chat
+document.getElementById("chewy-icon").addEventListener("click", () => {
+  const chatbox = document.getElementById("chewy-chatbox");
+  chatbox.style.display = chatbox.style.display === "none" ? "block" : "none";
+});
+
+// Botão de fechar
+document.getElementById("close-chat").addEventListener("click", () => {
+  document.getElementById("chewy-chatbox").style.display = "none";
+});
+
+// Enviar mensagens
+document.getElementById("send-btn").addEventListener("click", handleSend);
+document.getElementById("user-input").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    handleSend();
+  }
+});
+
+function handleSend() {
+  const input = document.getElementById("user-input").value.trim();
+  if (!input) return;
+  addMessage("You", input);
+  document.getElementById("user-input").value = "";
+  const reply = getResponse(input);
+  addMessage("Chewy 🦊", reply);
+}
+
+function addMessage(sender, text) {
+  const msg = document.createElement("div");
+  msg.style.marginBottom = "16px";
+  msg.innerHTML = `<strong>${sender}:</strong><br>${text}`;
+  const container = document.getElementById("chat-messages");
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+}
+</script>
