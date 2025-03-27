@@ -1,58 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chewy Widget</title>
   <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    #chewy-chatbot {
+    #chewy-widget {
       position: fixed;
       bottom: 20px;
       left: 20px;
       z-index: 9999;
+      font-family: sans-serif;
     }
 
     #chewy-icon {
       cursor: pointer;
+      width: 80px;
+      height: 80px;
       animation: bounce 2s infinite;
-      width: 72px;
     }
 
     #chewy-icon img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: contain;
     }
 
     #chewy-chatbox {
       display: none;
-      margin-top: 10px;
+      position: absolute;
+      bottom: 90px;
+      left: 0;
       width: 320px;
       min-height: 420px;
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 0 20px rgba(0,0,0,0.2);
       padding: 16px;
-      box-sizing: border-box;
-      position: relative;
+    }
+
+    #chewy-chatbox header {
+      font-weight: bold;
+      font-size: 16px;
+      color: #ea580c;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     #chewy-close {
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #888;
+      background: transparent;
+      border: none;
       font-size: 18px;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+      cursor: pointer;
+      color: #666;
     }
 
     #chat-messages {
@@ -62,10 +66,10 @@
       border-radius: 8px;
       padding: 8px;
       font-size: 14px;
-      line-height: 1.8;
+      line-height: 1.6;
     }
 
-    #user-input {
+    #chewy-chatbox input {
       flex: 1;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -73,7 +77,7 @@
       font-size: 14px;
     }
 
-    #send-btn {
+    #chewy-chatbox button {
       margin-left: 8px;
       padding: 6px 12px;
       background: #ea580c;
@@ -81,33 +85,35 @@
       border: none;
       border-radius: 8px;
       font-size: 14px;
+      cursor: pointer;
     }
 
-    .chat-footer {
+    #chewy-input-area {
       margin-top: 8px;
       display: flex;
     }
 
-    @media screen and (max-width: 600px) {
-      #chewy-chatbox {
-        width: 90vw;
-        min-height: 400px;
-      }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
   </style>
 </head>
 <body>
 
-<div id="chewy-chatbot">
+<div id="chewy-widget">
   <div id="chewy-icon">
-    <img src="https://raw.githubusercontent.com/pompanobackyard/chewy-widget/main/chewy-mascot-final.png" alt="Chewy the Shiba">
+    <img src="chewy-mascot-final.png" alt="Chewy the Shiba" />
   </div>
+
   <div id="chewy-chatbox">
-    <div id="chewy-close">×</div>
-    <div style="font-weight: bold; font-size: 16px; color: #ea580c; margin-bottom: 8px;">Hi, I'm Chewy! 🦊</div>
+    <header>
+      Hi, I'm Chewy! 🦊
+      <button id="chewy-close">&times;</button>
+    </header>
     <div id="chat-messages"></div>
-    <div class="chat-footer">
-      <input type="text" id="user-input" placeholder="Ask me anything...">
+    <div id="chewy-input-area">
+      <input type="text" id="user-input" placeholder="Ask me anything..." />
       <button id="send-btn">Send</button>
     </div>
   </div>
@@ -117,75 +123,36 @@
   const responses = {
     en: {
       greetings: "Hi there! 🐾 I'm Chewy. How can I help you today?",
-      suite1: "Suite 1 offers a private entrance, spa shower, queen bed, smart lock, and much more! 🛏️<br>👉 <a href='https://airbnb.com/h/pompanobackyardsuite1' target='_blank'>View on Airbnb</a>",
-      suite2: "Suite 2 is a charming private room with AC, kitchenette, and access to the beautiful backyard! 🌿<br>👉 <a href='https://airbnb.com/h/pompanobackyard2' target='_blank'>View on Airbnb</a>",
-      suite3: "Suite 3 is our cozy RV experience — queen bed, private bath, and outdoor vibe! 🚐<br>👉 <a href='https://airbnb.com/h/pompanobackyardsuite3' target='_blank'>View on Airbnb</a>",
-      chauffeur: "Need a ride? Book our private Tesla Model Y Chauffeur Service! 🚗⚡<br><a href='https://www.pompanobackyard.com/booking' target='_blank'>Book now</a> or <a href='https://www.pompanobackyard.com/chauffeurservice' target='_blank'>Request a ride</a>",
-      vip: "Join our VIP list for early access to discounts & perks 🧡<br><a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>Join here</a>",
-      directions: "🚉 Arriving via Tri-Rail? Exit at Pompano Beach station and take a ride-share (7 mins). If needed, message us via Airbnb!",
-      airport: "✈️ The closest airport is Fort Lauderdale (FLL), about 20 minutes from our suites.",
-      address: "📬 We share the exact address after your Airbnb reservation is confirmed.",
-      longterm: "Yes, we do offer long-term stays! 🏡<br>Please fill out our VIP form so we can reach out: <a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>VIP List</a>",
-      availability: "📅 Please check availability directly on Airbnb:<br><a href='https://airbnb.com/h/pompanobackyardsuite1' target='_blank'>Suite 1</a> | <a href='https://airbnb.com/h/pompanobackyard2' target='_blank'>Suite 2</a> | <a href='https://airbnb.com/h/pompanobackyardsuite3' target='_blank'>Suite 3</a>",
-      recommendations: "Check out our favorite local spots and tips here:<br><a href='https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344&s=67&unique_share_id=4c2e4fb2-23fe-474b-ad23-69e78203cdcc' target='_blank'>Pompano Guidebook</a>",
-      discount: "Yes, we offer discounts! 🎉 Join our VIP list to get them:<br><a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>VIP List</a>",
-      guest: "So happy to have you as a guest! 🐾 You're invited to our VIP List:<br><a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>Join here</a>",
-      directpay: "Thanks for your interest in paying directly. Please fill out our VIP form and our team will contact you:<br><a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>VIP List</a>",
-      default: "I'm not sure how to help with that 🐶 — but you can explore more at <a href='https://www.pompanobackyard.com' target='_blank'>our website</a> or ask me about suites, chauffeur, or directions!"
+      default: "I'm not sure how to help with that 🐶 — but you can explore more at <a href='https://www.pompanobackyard.com' target='_blank'>our website</a>!"
     },
     pt: {
       greetings: "Olá! 🐶 Eu sou o Chewy. Como posso te ajudar hoje?",
-      suite1: "A Suíte 1 tem entrada privativa, ducha spa, cama queen e muito mais! 🛏️<br>👉 <a href='https://airbnb.com/h/pompanobackyardsuite1' target='_blank'>Ver no Airbnb</a>",
-      suite2: "A Suíte 2 é confortável, charmosa e com acesso ao jardim! 🌿<br>👉 <a href='https://airbnb.com/h/pompanobackyard2' target='_blank'>Ver no Airbnb</a>",
-      suite3: "A Suíte 3 é um motorhome completo com cama queen, banheiro e vibe ao ar livre! 🚐<br>👉 <a href='https://airbnb.com/h/pompanobackyardsuite3' target='_blank'>Ver no Airbnb</a>",
-      chauffeur: "Quer um transfer? 🚗 Conheça nosso serviço Tesla Model Y:<br><a href='https://www.pompanobackyard.com/booking' target='_blank'>Agendar</a> ou <a href='https://www.pompanobackyard.com/chauffeurservice' target='_blank'>Solicitar transporte</a>",
-      vip: "Entre na nossa lista VIP e receba benefícios exclusivos! 🎁<br><a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>Clique aqui</a>",
-      directions: "🚉 Vindo de Tri-Rail? Saia na estação de Pompano Beach e pegue um app de corrida. Fica a 7 minutos!",
-      airport: "✈️ O aeroporto mais próximo é o Fort Lauderdale (FLL), a cerca de 20 minutos.",
-      address: "📬 Compartilhamos o endereço após a reserva confirmada pelo Airbnb.",
-      longterm: "Sim, aceitamos estadias de longo prazo! 🏡<br>Preencha o formulário VIP:<br><a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>Lista VIP</a>",
-      availability: "📅 Verifique disponibilidade diretamente no Airbnb:<br><a href='https://airbnb.com/h/pompanobackyardsuite1' target='_blank'>Suíte 1</a> | <a href='https://airbnb.com/h/pompanobackyard2' target='_blank'>Suíte 2</a> | <a href='https://airbnb.com/h/pompanobackyardsuite3' target='_blank'>Suíte 3</a>",
-      recommendations: "Confira nossas recomendações locais:<br><a href='https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344&s=67&unique_share_id=4c2e4fb2-23fe-474b-ad23-69e78203cdcc' target='_blank'>Guia de Pompano</a>",
-      discount: "Sim, temos descontos! 🎉 Entre na nossa lista VIP para receber:<br><a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>Lista VIP</a>",
-      guest: "Que bom te ver por aqui! 🧡 Entre para nossa Lista VIP:<br><a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>Clique aqui</a>",
-      directpay: "Se quiser pagar direto, preencha o formulário VIP e nossa equipe vai entrar em contato:<br><a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>Lista VIP</a>",
-      default: "Hmm... não entendi bem 😅. Mas você pode visitar nosso site ou perguntar sobre suítes, transfer ou localização!"
+      default: "Hmm... não entendi bem 😅. Mas você pode visitar nosso site:<br><a href='https://www.pompanobackyard.com' target='_blank'>pompanobackyard.com</a>"
     }
   };
 
   function detectLang(text) {
-    return /[áéíóúãõêç]/i.test(text) || /(oi|olá|suíte|reserva|praia|desconto)/i.test(text) ? "pt" : "en";
+    return /[áéíóúãõêç]/i.test(text) || /(oi|olá|suíte|reserva)/i.test(text) ? "pt" : "en";
   }
 
   function getResponse(input) {
     const lang = detectLang(input);
     const msg = input.toLowerCase();
     const r = responses[lang];
-
     if (["hi", "hello", "oi", "olá"].some(w => msg.includes(w))) return r.greetings;
-    if (msg.includes("suite 1") || msg.includes("suíte 1")) return r.suite1;
-    if (msg.includes("suite 2") || msg.includes("suíte 2")) return r.suite2;
-    if (msg.includes("suite 3") || msg.includes("suíte 3") || msg.includes("rv")) return r.suite3;
-    if (msg.includes("chauffeur") || msg.includes("tesla") || msg.includes("transfer")) return r.chauffeur;
-    if (msg.includes("desconto") || msg.includes("discount")) return r.discount;
-    if (msg.includes("já fui") || msg.includes("já fiquei") || msg.includes("i stayed") || msg.includes("i'm staying") || msg.includes("i will stay")) return r.guest;
-    if (msg.includes("pagar direto") || msg.includes("directly") || msg.includes("sem airbnb")) return r.directpay;
-    if (msg.includes("long term") || msg.includes("6 meses") || msg.includes("ano")) return r.longterm;
-    if (msg.includes("airport") || msg.includes("aeroporto")) return r.airport;
-    if (msg.includes("address") || msg.includes("endereço")) return r.address;
-    if (msg.includes("availability") || msg.includes("disponibilidade")) return r.availability;
-    if (msg.includes("recommendation") || msg.includes("recomenda")) return r.recommendations;
-    if (msg.includes("directions") || msg.includes("chegar") || msg.includes("tri-rail")) return r.directions;
-
     return r.default;
   }
 
-  document.getElementById("chewy-icon").addEventListener("click", () => {
-    document.getElementById("chewy-chatbox").style.display = "block";
+  const chewyIcon = document.getElementById("chewy-icon");
+  const chatbox = document.getElementById("chewy-chatbox");
+  const closeBtn = document.getElementById("chewy-close");
+
+  chewyIcon.addEventListener("click", () => {
+    chatbox.style.display = "block";
   });
 
-  document.getElementById("chewy-close").addEventListener("click", () => {
-    document.getElementById("chewy-chatbox").style.display = "none";
+  closeBtn.addEventListener("click", () => {
+    chatbox.style.display = "none";
   });
 
   document.getElementById("send-btn").addEventListener("click", handleSend);
@@ -207,7 +174,7 @@
 
   function addMessage(sender, text) {
     const msg = document.createElement("div");
-    msg.style.marginBottom = "20px";
+    msg.style.marginBottom = "12px";
     msg.innerHTML = `<strong>${sender}:</strong><br>${text}`;
     const container = document.getElementById("chat-messages");
     container.appendChild(msg);
