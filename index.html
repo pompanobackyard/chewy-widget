@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Chewy Widget</title>
   <style>
     * {
       box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: sans-serif;
     }
 
     #chewy-container {
@@ -19,55 +13,138 @@
       bottom: 20px;
       left: 20px;
       z-index: 9999;
+      font-family: sans-serif;
     }
 
     #chewy-icon {
-      width: 90px;
-      height: 90px;
-      background: white;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      box-shadow: 0 0 12px rgba(0,0,0,0.2);
       overflow: visible;
       cursor: pointer;
-      position: relative;
-      animation: float 3s ease-in-out infinite;
-      transition: transform 0.3s ease;
+      animation: float 2.5s ease-in-out infinite, headTilt 3s ease-in-out infinite;
+      transition: transform 0.2s ease;
     }
 
     #chewy-icon img {
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
       width: 100px;
-      animation: headMove 2s infinite ease-in-out;
-      pointer-events: none;
+      height: 100px;
+      object-fit: contain;
+      transform: translateY(-20px);
+    }
+
+    #chewy-chatbox {
+      display: none;
+      position: absolute;
+      bottom: 120px;
+      left: 0;
+      width: 320px;
+      min-height: 420px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    #chat-header {
+      font-weight: bold;
+      font-size: 16px;
+      color: #ea580c;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #chat-close {
+      cursor: pointer;
+      font-weight: bold;
+      color: #888;
+      font-size: 18px;
+    }
+
+    #chat-messages {
+      height: 260px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+
+    #user-input {
+      width: 100%;
+      padding: 6px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
     }
 
     @keyframes float {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-6px);
-      }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
     }
 
-    @keyframes headMove {
-      0%, 100% {
-        transform: translateX(-50%) rotate(0deg);
-      }
-      50% {
-        transform: translateX(-50%) rotate(3deg);
-      }
+    @keyframes headTilt {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(-2deg); }
     }
   </style>
 </head>
 <body>
-  <div id="chewy-container">
-    <div id="chewy-icon" title="Message Chewy!">
-      <img src="https://pompanobackyard.github.io/chewy-widget/chewy-mascot.png" alt="Chewy the Shiba">
-    </div>
+
+<div id="chewy-container">
+  <div id="chewy-icon">
+    <img src="https://pompanobackyard.github.io/chewy-widget/chewy-mascot.png" alt="Chewy the Shiba">
   </div>
+  <div id="chewy-chatbox">
+    <div id="chat-header">
+      Hi, I'm Chewy! 🦊
+      <span id="chat-close">&times;</span>
+    </div>
+    <div id="chat-messages"></div>
+    <input type="text" id="user-input" placeholder="Message Chewy...">
+  </div>
+</div>
+
+<script>
+  const chewyIcon = document.getElementById('chewy-icon');
+  const chewyChatbox = document.getElementById('chewy-chatbox');
+  const chatClose = document.getElementById('chat-close');
+  const input = document.getElementById('user-input');
+  const messages = document.getElementById('chat-messages');
+
+  chewyIcon.addEventListener('click', () => {
+    chewyChatbox.style.display = chewyChatbox.style.display === 'none' ? 'block' : 'none';
+  });
+
+  chatClose.addEventListener('click', () => {
+    chewyChatbox.style.display = 'none';
+  });
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const value = input.value.trim();
+      if (value) {
+        addMessage("You", value);
+        addMessage("Chewy 🦊", "Thanks for your message! Visit our website for more info: <a href='https://www.pompanobackyard.com' target='_blank'>pompanobackyard.com</a>");
+        input.value = "";
+      }
+    }
+  });
+
+  function addMessage(sender, text) {
+    const msg = document.createElement('div');
+    msg.innerHTML = `<strong>${sender}:</strong><br>${text}`;
+    msg.style.marginBottom = '16px';
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+</script>
+
 </body>
 </html>
