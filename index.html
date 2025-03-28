@@ -107,6 +107,167 @@
   </style>
 </head>
 <body>
-<!-- Chatbot structure omitted for brevity -->
+
+<div id="chewy-chatbot">
+  <div id="chewy-icon">
+    <img src="https://pompanobackyard.github.io/chewy-widget/chewy-mascot.png" alt="Chewy Icon">
+  </div>
+
+  <div id="chewy-chatbox">
+    <div id="chewy-header">
+      Hi, I'm Chewy! 🦊
+      <span id="chewy-close">✕</span>
+    </div>
+    <div id="chat-messages"></div>
+    <div id="chewy-input">
+      <input type="text" id="user-input" placeholder="Pick a number..." />
+      <button id="send-btn">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const menu = `
+Welcome to Pompano Backyard! How can I help? 😊<br><br>
+1 - View all suites<br>
+2 - Chauffeur Service<br>
+3 - How to book<br>
+4 - Discounts (VIP List)<br>
+5 - How to get here<br>
+6 - Parking info<br>
+7 - Long term stay<br>
+8 - Recommendations<br>
+9 - eGift Card<br>
+10 - About Pompano Beach
+`;
+
+  const responses = {
+    1: `<strong>Pompano Backyard - Suite 1</strong><br>
+✔ Private & Peaceful Suite – One cozy queen-size bed, private entrance, and personal outdoor access in a quiet setting.<br>
+✔ Spa-Style Bathroom – Luxurious spa shower with multiple showerheads and relaxing jets.<br>
+✔ Separate Entrance – Full privacy with a dedicated entryway.<br>
+✔ Nature Vibes – Garden with hammocks and tropical landscaping.<br>
+✔ Secure & Comfortable – Smart lock, AC, and more.<br>
+✔ Private Parking – Safe, off-street location in front of the home.<br><br>
+🔗 <a href='https://airbnb.com/h/pompanobackyardsuite1' target='_blank'>View Suite 1</a><br><br>
+
+<strong>Pompano Backyard - Suite 2</strong><br>
+✔ Private Bedroom Retreat – Queen bed, bathroom, and cozy interior.<br>
+✔ Private Entrance – Access through fenced backyard.<br>
+✔ Outdoor Charm – Garden with hammocks, ping pong, and more.<br>
+✔ AC & Essentials – Split AC, linens, towels, toiletries.<br>
+✔ Safe Parking – Free off-street near the gate.<br><br>
+🔗 <a href='https://airbnb.com/h/pompanobackyard2' target='_blank'>View Suite 2</a><br><br>
+
+<strong>Pompano Backyard - Suite 3 (RV)</strong><br>
+✔ Private & Stylish RV – Queen bed, AC, smart TV.<br>
+✔ Private Bathroom – Shower, sink, essentials.<br>
+✔ Outdoor Retreat – Backyard with seating and lights.<br>
+✔ Prime Location – Close to beach and attractions.<br>
+✔ Fast Wi-Fi – Perfect for remote work.<br>
+✔ Secure Parking – Free and private.<br><br>
+🔗 <a href='https://airbnb.com/h/pompanobackyardsuite3' target='_blank'>View Suite 3</a><br><br>
+🔙 Type 0 to return to menu.`,
+
+    2: `🚘 <strong>Private Tesla Chauffeur Service</strong><br>
+Ride in style with our Tesla Model Y Chauffeur!<br>
+🔗 <a href='https://www.pompanobackyard.com/chauffeurservice' target='_blank'>View Details</a><br>
+🔗 <a href='https://www.pompanobackyard.com/booking' target='_blank'>Book Now</a><br><br>
+🔙 Type 0 to return to menu.`,
+
+    3: `📅 <strong>How to Book</strong><br>
+All our suites are hosted on Airbnb. Just visit the links and reserve directly:<br>
+- <a href='https://airbnb.com/h/pompanobackyardsuite1' target='_blank'>Suite 1</a><br>
+- <a href='https://airbnb.com/h/pompanobackyard2' target='_blank'>Suite 2</a><br>
+- <a href='https://airbnb.com/h/pompanobackyardsuite3' target='_blank'>Suite 3</a><br><br>
+🔙 Type 0 to return to menu.`,
+
+    4: `❌ This option requires you to return to the main menu and choose a valid number.<br><br>🔙 Type 0 to return.`,
+
+    5: `📍 <strong>Getting Here</strong><br>
+Once your reservation is confirmed via Airbnb, you’ll receive our exact address.<br>
+If you need help getting here, just message us through the Airbnb app — we’ve got you! 😊<br><br>
+🔙 Type 0 to return to menu.`,
+
+    6: `🚗 <strong>Parking Information</strong><br>
+✔ Private Parking – Off-street parking available in a safe and convenient location in front of the home.<br><br>
+🔙 Type 0 to return to menu.`,
+
+    7: `📆 <strong>Long-Term Stays</strong><br>
+Yes! We offer long-term options. Join our VIP list and we’ll reach out:<br>
+🔗 <a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>VIP Form</a><br><br>
+🔙 Type 0 to return to menu.`,
+
+    8: `🌴 <strong>Local Tips & Recommendations</strong><br>
+Check out our Airbnb Guidebook with the best of Pompano:<br>
+🔗 <a href='https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344' target='_blank'>Pompano Guidebook</a><br><br>
+🔙 Type 0 to return to menu.`,
+
+    9: `🎁 <strong>eGift Card</strong><br>
+You can't go wrong with a gift card. Choose an amount and write a personalized message to make this gift your own.<br>
+🔗 <a href='https://www.pompanobackyard.com/gift-card' target='_blank'>Buy Gift Card</a><br><br>
+🔙 Type 0 to return to menu.`,
+
+    10: `🌊 <strong>About Pompano Beach</strong><br>
+Pompano Beach is a beautiful coastal city in South Florida, known for its beaches, warm weather, and outdoor fun.<br>
+🔗 <a href='https://www.pompanobackyard.com/pompanobeach' target='_blank'>Learn More</a><br><br>
+🔙 Type 0 to return to menu.`
+  };
+
+  let awaitingMenu = true;
+
+  function displayMessage(sender, text) {
+    const container = document.getElementById("chat-messages");
+    const msg = document.createElement("div");
+    msg.innerHTML = `<strong>${sender}:</strong><br>${text}<br>`;
+    msg.style.marginBottom = "12px";
+    container.appendChild(msg);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function handleSend() {
+    const inputEl = document.getElementById("user-input");
+    const input = inputEl.value.trim();
+    if (!input) return;
+
+    displayMessage("You", input);
+    inputEl.value = "";
+
+    if (awaitingMenu) {
+      displayMessage("Chewy 🦊", menu);
+      awaitingMenu = false;
+      return;
+    }
+
+    if (input === "0") {
+      displayMessage("Chewy 🦊", menu);
+      return;
+    }
+
+    if (responses[input]) {
+      displayMessage("Chewy 🦊", responses[input]);
+    } else {
+      displayMessage("Chewy 🦊", "⚠️ Please type a number from the menu above!<br>🔙 Type 0 to return to main menu.");
+    }
+  }
+
+  document.getElementById("chewy-icon").addEventListener("click", () => {
+    const box = document.getElementById("chewy-chatbox");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+  });
+
+  document.getElementById("chewy-close").addEventListener("click", () => {
+    document.getElementById("chewy-chatbox").style.display = "none";
+  });
+
+  document.getElementById("send-btn").addEventListener("click", handleSend);
+  document.getElementById("user-input").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSend();
+    }
+  });
+</script>
+
 </body>
 </html>
