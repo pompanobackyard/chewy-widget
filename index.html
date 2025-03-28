@@ -173,6 +173,10 @@
     if (msg.includes("how to get") || msg.includes("directions")) return responses.directions;
     if (msg.includes("parking")) return responses.parking;
 
+<<<<<<< HEAD
+=======
+    // Random default message
+>>>>>>> c74293ddb610d491b7ca4b5a6b36e17e21f35de2
     const random = responses.default[Math.floor(Math.random() * responses.default.length)];
     return random;
   }
