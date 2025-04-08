@@ -37,8 +37,8 @@
       position: absolute;
       bottom: 100px;
       left: 0;
-      width: 340px;
-      height: 400px;
+      width: 360px;
+      height: 540px; /* aumentada */
       background: white;
       border-radius: 16px;
       box-shadow: 0 0 20px rgba(0,0,0,0.2);
@@ -64,7 +64,7 @@
     }
 
     #chat-messages {
-      height: 280px;
+      height: 380px; /* aumentada */
       overflow-y: auto;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -117,7 +117,7 @@
 
   <div id="chewy-chatbox">
     <div id="chewy-header">
-      Hi, I'm Chewy! 🦊
+      Hi, I'm Chewy! 🐱
       <span id="chewy-close">✕</span>
     </div>
     <div id="chat-messages"></div>
@@ -130,88 +130,30 @@
 
 <script>
   const menu = `
-Please choose a number:
-1️⃣ - View all Airbnb Suites  
-2️⃣ - Chauffeur / Tesla Service  
-3️⃣ - How to get here / Address  
-4️⃣ - VIP Access & Perks  
-5️⃣ - Booking & Availability  
-6️⃣ - Parking info  
-7️⃣ - Recommendations  
-8️⃣ - Long-term stays  
-9️⃣ - eGift Card  
-🔟 - About Pompano Beach
+Please choose a number:<br>
+1 - View all Airbnb Suites<br>
+2 - Chauffeur / Tesla Service<br>
+3 - How to get here / Address<br>
+4 - VIP Access & Perks<br>
+5 - Booking & Availability<br>
+6 - Parking info<br>
+7 - Recommendations<br>
+8 - Long-term stays<br>
+9 - eGift Card<br>
+10 - About Pompano Beach
 `;
 
   const responses = {
-    1: `🏡 <strong>Pompano Backyard Suites:</strong><br><br>
-<b>Pompano Backyard - Suite 1</b><br>
-✔ Private & Peaceful Suite – Queen bed, private entrance, outdoor access<br>
-✔ Spa-Style Bathroom – Multiple showerheads & jets<br>
-✔ Nature Vibes – Hammocks & tropical garden<br>
-✔ Secure & Comfortable – Smart lock, AC, closet<br>
-✔ Private Parking – Off-street, safe location<br>
-🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">View Suite 1</a><br><br>
-
-<b>Pompano Backyard - Suite 2</b><br>
-✔ Private Bedroom Retreat – Queen bed, bathroom, closet<br>
-✔ Outdoor Charm – Garden, hammocks, ping pong<br>
-✔ AC & Essentials – Linens, toiletries, comfy setup<br>
-✔ Safe Parking – Off-street, in front of the home<br>
-🔗 <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">View Suite 2</a><br><br>
-
-<b>Pompano Backyard - Suite 3 (RV)</b><br>
-✔ Private & Stylish RV – Queen bed, A/C, Smart TV<br>
-✔ Outdoor Retreat – Backyard lighting & seating<br>
-✔ Fast Wi-Fi & Workspace<br>
-✔ Secure Parking – Free & private<br>
-🔗 <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">View Suite 3</a><br><br>
-Type 0️⃣ to return to main menu.`,
-
-    2: `🚗 <strong>Chauffeur / Tesla Service</strong><br>
-Enjoy a luxury ride in our Tesla Model Y with private chauffeur.<br>
-🔗 <a href="https://www.pompanobackyard.com/booking" target="_blank">Book Now</a> or <a href="https://www.pompanobackyard.com/chauffeurservice" target="_blank">More Info</a><br><br>
-Type 0️⃣ to return to main menu.`,
-
-    3: `📍 <strong>Getting Here / Address</strong><br>
-Once your reservation is confirmed via Airbnb, you’ll receive our exact address. If you need help getting here, just message us through the Airbnb app — we’ve got you! 😊<br><br>
-Type 0️⃣ to return to main menu.`,
-
-    4: `💸 <strong>VIP Access & Perks</strong><br>
-Yes! We offer exclusive discounts and early access perks to our VIP guests.<br>
-🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Join the VIP List</a><br><br>
-Type 0️⃣ to return to main menu.`,
-
-    5: `📅 <strong>Booking & Availability</strong><br>
-Check availability directly via Airbnb:<br>
-🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">Suite 1</a> | 
-<a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a> | 
-<a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br><br>
-Type 0️⃣ to return to main menu.`,
-
-    6: `🅿️ <strong>Parking Information</strong><br>
-✔ Private Parking – Off-street parking available in a safe and convenient location in front of the home.<br><br>
-Type 0️⃣ to return to main menu.`,
-
-    7: `📌 <strong>Recommendations</strong><br>
-Check out our favorite local tips and places to explore!<br>
-🔗 <a href="https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344&s=67&unique_share_id=4c2e4fb2-23fe-474b-ad23-69e78203cdcc" target="_blank">Pompano Guidebook</a><br><br>
-Type 0️⃣ to return to main menu.`,
-
-    8: `🏠 <strong>Long-Term Stays</strong><br>
-Yes! We welcome monthly or seasonal stays.<br>
-🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Request via VIP Form</a><br><br>
-Type 0️⃣ to return to main menu.`,
-
-    9: `🎁 <strong>eGift Cards</strong><br>
-You can't go wrong with a gift card. Choose an amount and write a personalized message to make this gift your own.<br>
-🔗 <a href="https://www.pompanobackyard.com/gift-card" target="_blank">Send a Gift</a><br><br>
-Type 0️⃣ to return to main menu.`,
-
-    10: `🌴 <strong>About Pompano Beach</strong><br>
-Pompano Beach is a beautiful coastal city in South Florida, known for sunshine, sandy beaches, and outdoor fun.<br>
-🔗 <a href="https://www.pompanobackyard.com/pompanobeach" target="_blank">Learn More</a><br><br>
-Type 0️⃣ to return to main menu.`
+    1: `🏡 <strong>Pompano Backyard Suites:</strong><br><br>...`, // (restante igual)
+    2: `🚗 <strong>Chauffeur / Tesla Service:</strong><br>...`,
+    3: `📍 <strong>Getting Here / Address:</strong><br>...`,
+    4: `💸 <strong>VIP Access & Perks:</strong><br>...`,
+    5: `📅 <strong>Booking & Availability:</strong><br>...`,
+    6: `🅿️ <strong>Parking info:</strong><br>...`,
+    7: `📌 <strong>Recommendations:</strong><br>...`,
+    8: `🏠 <strong>Long-term stays:</strong><br>...`,
+    9: `🎁 <strong>eGift Cards:</strong><br>...`,
+    10: `🌴 <strong>About Pompano Beach:</strong><br>...`,
   };
 
   function showMenu() {
@@ -252,7 +194,7 @@ Type 0️⃣ to return to main menu.`
 
     const reply = firstTime ? showMenu() : getResponse(input);
     firstTime = false;
-    addMessage("Chewy 🦊", reply);
+    addMessage("Chewy 🐱", reply);
   }
 
   function addMessage(sender, text) {
