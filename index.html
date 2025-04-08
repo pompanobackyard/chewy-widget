@@ -38,7 +38,7 @@
       bottom: 100px;
       left: 0;
       width: 340px;
-      height: 440px;
+      height: 460px;
       background: white;
       border-radius: 16px;
       box-shadow: 0 0 20px rgba(0,0,0,0.2);
@@ -64,7 +64,7 @@
     }
 
     #chat-messages {
-      height: 300px;
+      height: 310px;
       overflow-y: auto;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -144,16 +144,56 @@ Please choose a number:<br><br>
 `;
 
   const responses = {
-    1: `🏡 <strong>Pompano Backyard Suites:</strong><br><br>🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">Suite 1</a> | <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a> | <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br><br>Type 0️⃣ to return to main menu.`,
-    2: `🚗 <strong>Chauffeur / Tesla Service</strong><br>Luxury Tesla rides available.<br>🔗 <a href="https://www.pompanobackyard.com/chauffeurservice" target="_blank">More Info</a><br><br>Type 0️⃣ to return to main menu.`,
-    3: `📍 <strong>Getting Here / Address</strong><br>Address sent after Airbnb booking confirmation.<br><br>Type 0️⃣ to return to main menu.`,
-    4: `💸 <strong>VIP Access & Perks</strong><br>Get early access and discounts.<br>🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Join VIP List</a><br><br>Type 0️⃣ to return to main menu.`,
-    5: `📅 <strong>Booking & Availability</strong><br>Check availability on Airbnb:<br>🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">Suite 1</a> | <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a> | <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br><br>Type 0️⃣ to return to main menu.`,
-    6: `🅿️ <strong>Parking Info</strong><br>✔ Free off-street parking in front of the home.<br><br>Type 0️⃣ to return to main menu.`,
-    7: `📌 <strong>Recommendations</strong><br>🔗 <a href="https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344" target="_blank">See local tips</a><br><br>Type 0️⃣ to return to main menu.`,
-    8: `🏠 <strong>Long-term stays</strong><br>Monthly/seasonal options available.<br>🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Request here</a><br><br>Type 0️⃣ to return to main menu.`,
-    9: `🎁 <strong>eGift Cards</strong><br>Send a digital gift!<br>🔗 <a href="https://www.pompanobackyard.com/gift-card" target="_blank">Send a Gift</a><br><br>Type 0️⃣ to return to main menu.`,
-    10: `🌴 <strong>About Pompano Beach</strong><br>Discover this sunny beach town in South Florida!<br>🔗 <a href="https://www.pompanobackyard.com/pompanobeach" target="_blank">Learn More</a><br><br>Type 0️⃣ to return to main menu.`
+    1: `🏡 <strong>Pompano Backyard Suites:</strong><br><br>
+🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">Suite 1</a><br>
+🔗 <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a><br>
+🔗 <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br><br>
+Type 0️⃣ to return to main menu.`,
+    
+    2: `🚗 <strong>Chauffeur / Tesla Service</strong><br>
+Enjoy a luxury ride in our Tesla Model Y with private chauffeur.<br>
+🔗 <a href="https://www.pompanobackyard.com/chauffeurservice" target="_blank">More Info</a><br><br>
+Type 0️⃣ to return to main menu.`,
+
+    3: `📍 <strong>Getting Here / Address</strong><br>
+Once your reservation is confirmed via Airbnb, you’ll receive our exact address.<br><br>
+Type 0️⃣ to return to main menu.`,
+
+    4: `💸 <strong>VIP Access & Perks</strong><br>
+We offer exclusive discounts and early access perks to our VIP guests.<br>
+🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Join the VIP List</a><br><br>
+Type 0️⃣ to return to main menu.`,
+
+    5: `📅 <strong>Booking & Availability</strong><br>
+Check availability directly via Airbnb:<br>
+🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">Suite 1</a> | 
+<a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a> | 
+<a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br><br>
+Type 0️⃣ to return to main menu.`,
+
+    6: `🅿️ <strong>Parking Info</strong><br>
+✔ Free private parking in front of the house.<br><br>
+Type 0️⃣ to return to main menu.`,
+
+    7: `📌 <strong>Recommendations</strong><br>
+Check out our local guidebook:<br>
+🔗 <a href="https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344" target="_blank">Explore Recommendations</a><br><br>
+Type 0️⃣ to return to main menu.`,
+
+    8: `🏠 <strong>Long-Term Stays</strong><br>
+Yes, we offer monthly and seasonal rentals.<br>
+🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Request Info</a><br><br>
+Type 0️⃣ to return to main menu.`,
+
+    9: `🎁 <strong>eGift Cards</strong><br>
+Give the gift of paradise!<br>
+🔗 <a href="https://www.pompanobackyard.com/gift-card" target="_blank">Send a Gift</a><br><br>
+Type 0️⃣ to return to main menu.`,
+
+    10: `🌴 <strong>About Pompano Beach</strong><br>
+Beautiful coastal city in South Florida full of sunshine and beach vibes.<br>
+🔗 <a href="https://www.pompanobackyard.com/pompanobeach" target="_blank">Learn More</a><br><br>
+Type 0️⃣ to return to main menu.`
   };
 
   function showMenu() {
@@ -164,7 +204,7 @@ Please choose a number:<br><br>
     const input = msg.trim();
     if (input === "0") return showMenu();
     if (responses[input]) return responses[input];
-    return "❌ This option requires you to return to the main menu and choose a valid number.";
+    return "❌ Invalid option. Please type a number from the menu or type 0️⃣ to return to the main menu.";
   }
 
   document.getElementById("chewy-icon").addEventListener("click", () => {
