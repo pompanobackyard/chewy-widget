@@ -133,18 +133,17 @@
 <script>
   const menu = `
 Please choose a number:<br><br>
-1️⃣ - View all Airbnb Suites<br>
-2️⃣ - Chauffeur / Tesla Service<br>
-3️⃣ - How to get here / Address<br>
-4️⃣ - VIP Access & Perks<br>
-5️⃣ - Booking & Availability<br>
-6️⃣ - Parking info<br>
-7️⃣ - Recommendations<br>
-8️⃣ - Long-term stays<br>
-9️⃣ - eGift Card<br>
-🔟 - About Pompano Beach
+1 - View all Airbnb Suites<br>
+2 - Chauffeur / Tesla Service<br>
+3 - How to get here / Address<br>
+4 - VIP Access & Perks<br>
+5 - Booking & Availability<br>
+6 - Parking info<br>
+7 - Recommendations<br>
+8 - Long-term stays<br>
+9 - eGift Card<br>
+10 - About Pompano Beach
 `;
-</script>
 
   const responses = {
     1: `🏡 <strong>Pompano Backyard Suites:</strong><br><br>
@@ -152,21 +151,21 @@ Please choose a number:<br><br>
 🔗 <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a><br>
 🔗 <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br>
 🔗 <a href="https://airbnb.com/h/pompanobackyardsuite4" target="_blank">Suite 4</a><br>
-<br>Type 0️⃣ to return to main menu.`,
+<br>Type 0 to return to main menu.`,
 
     2: `🚗 <strong>Chauffeur / Tesla Service</strong><br>
 Private luxury rides in our Tesla Model Y.<br>
 🔗 <a href="https://www.pompanobackyard.com/chauffeurservice" target="_blank">Book your ride</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Type 0 to return to main menu.`,
 
     3: `📍 <strong>Getting Here / Address</strong><br>
 Address is shared after reservation confirmation on Airbnb.<br><br>
-Type 0️⃣ to return to main menu.`,
+Type 0 to return to main menu.`,
 
     4: `💸 <strong>VIP Access & Perks</strong><br>
 Join our VIP list for exclusive discounts!<br>
 🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Join Now</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Type 0 to return to main menu.`,
 
     5: `🗓 <strong>Booking & Availability</strong><br>
 Check our Airbnb listings:<br>
@@ -174,31 +173,31 @@ Check our Airbnb listings:<br>
 <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a> | 
 <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a> | 
 <a href="https://airbnb.com/h/pompanobackyardsuite4" target="_blank">Suite 4</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Type 0 to return to main menu.`,
 
     6: `🅿 <strong>Parking Info</strong><br>
 Free and private parking available in front of the house.<br><br>
-Type 0️⃣ to return to main menu.`,
+Type 0 to return to main menu.`,
 
     7: `📌 <strong>Recommendations</strong><br>
 Explore local tips and places:<br>
 🔗 <a href="https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344" target="_blank">View Guidebook</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Type 0 to return to main menu.`,
 
     8: `🏠 <strong>Long-Term Stays</strong><br>
 Monthly or seasonal stays available.<br>
 🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Request Info</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Type 0 to return to main menu.`,
 
     9: `🎁 <strong>eGift Cards</strong><br>
 Send a custom gift card today.<br>
 🔗 <a href="https://www.pompanobackyard.com/gift-card" target="_blank">Send Gift</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Type 0 to return to main menu.`,
 
     10: `🌴 <strong>About Pompano Beach</strong><br>
 Sunny coastal city in South Florida. Come relax!<br>
 🔗 <a href="https://www.pompanobackyard.com/pompanobeach" target="_blank">Learn More</a><br><br>
-Type 0️⃣ to return to main menu.`
+Type 0 to return to main menu.`
   };
 
   function showMenu() {
@@ -209,7 +208,7 @@ Type 0️⃣ to return to main menu.`
     const input = msg.trim();
     if (input === "0") return showMenu();
     if (responses[input]) return responses[input];
-    return "❌ Invalid option. Please type a number from the menu or type 0️⃣ to return to the main menu.";
+    return "❌ Invalid option. Please type a number from the menu or type 0 to return to the main menu.";
   }
 
   document.getElementById("chewy-icon").addEventListener("click", () => {
