@@ -9,7 +9,7 @@
       bottom: 20px;
       left: 20px;
       z-index: 9999;
-      font-family: sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     #chewy-icon {
@@ -17,7 +17,7 @@
       height: 80px;
       border-radius: 50%;
       background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
       cursor: pointer;
       animation: float 2s ease-in-out infinite, nod 4s ease-in-out infinite;
       display: flex;
@@ -37,63 +37,65 @@
       position: absolute;
       bottom: 100px;
       left: 0;
-      width: 340px;
-      height: 460px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      width: 360px;
+      height: 520px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
       padding: 16px;
       box-sizing: border-box;
       overflow: hidden;
+      transition: all 0.3s ease;
     }
 
     #chewy-header {
-      font-weight: bold;
-      font-size: 16px;
+      font-weight: 700;
+      font-size: 18px;
       color: #ea580c;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     #chewy-close {
-      font-size: 16px;
+      font-size: 20px;
       cursor: pointer;
       color: #999;
     }
 
     #chat-messages {
-      height: 310px;
+      height: 360px;
       overflow-y: auto;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 8px;
-      font-size: 14px;
-      line-height: 1.6;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 15px;
+      line-height: 1.7;
     }
 
     #chewy-input {
-      margin-top: 10px;
+      margin-top: 12px;
       display: flex;
+      gap: 8px;
     }
 
     #user-input {
       flex: 1;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 6px;
-      font-size: 14px;
+      border-radius: 12px;
+      padding: 8px 10px;
+      font-size: 15px;
     }
 
     #send-btn {
-      margin-left: 8px;
-      padding: 6px 12px;
+      padding: 8px 14px;
       background: #ea580c;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      cursor: pointer;
     }
 
     @keyframes float {
@@ -118,7 +120,7 @@
   <div id="chewy-chatbox">
     <div id="chewy-header">
       Hi, I'm Chewy! 🐱
-      <span id="chewy-close">✕</span>
+      <span id="chewy-close">&times;</span>
     </div>
     <div id="chat-messages"></div>
     <div id="chewy-input">
@@ -131,71 +133,71 @@
 <script>
   const menu = `
 Please choose a number:<br><br>
-1️⃣ - View all Airbnb Suites<br>
-2️⃣ - Chauffeur / Tesla Service<br>
-3️⃣ - How to get here / Address<br>
-4️⃣ - VIP Access & Perks<br>
-5️⃣ - Booking & Availability<br>
-6️⃣ - Parking info<br>
-7️⃣ - Recommendations<br>
-8️⃣ - Long-term stays<br>
-9️⃣ - eGift Card<br>
-🔟 - About Pompano Beach
+1⃣ - View all Airbnb Suites<br>
+2⃣ - Chauffeur / Tesla Service<br>
+3⃣ - How to get here / Address<br>
+4⃣ - VIP Access & Perks<br>
+5⃣ - Booking & Availability<br>
+6⃣ - Parking info<br>
+7⃣ - Recommendations<br>
+8⃣ - Long-term stays<br>
+9⃣ - eGift Card<br>
+🔿 - About Pompano Beach
 `;
 
   const responses = {
     1: `🏡 <strong>Pompano Backyard Suites:</strong><br><br>
 🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">Suite 1</a><br>
 🔗 <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a><br>
-🔗 <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br><br>
+🔗 <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br>
 🔗 <a href="https://airbnb.com/h/pompanobackyardsuite4" target="_blank">Suite 4</a><br><br>
-Type 0️⃣ to return to main menu.`,
-    
+Type 0⃣ to return to main menu.`,
+
     2: `🚗 <strong>Chauffeur / Tesla Service</strong><br>
-Enjoy a luxury ride in our Tesla Model Y with private chauffeur.<br>
-🔗 <a href="https://www.pompanobackyard.com/chauffeurservice" target="_blank">More Info</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Private luxury rides in our Tesla Model Y.<br>
+🔗 <a href="https://www.pompanobackyard.com/chauffeurservice" target="_blank">Book your ride</a><br><br>
+Type 0⃣ to return to main menu.`,
 
     3: `📍 <strong>Getting Here / Address</strong><br>
-Once your reservation is confirmed via Airbnb, you’ll receive our exact address.<br><br>
-Type 0️⃣ to return to main menu.`,
+Address is shared after reservation confirmation on Airbnb.<br><br>
+Type 0⃣ to return to main menu.`,
 
     4: `💸 <strong>VIP Access & Perks</strong><br>
-We offer exclusive discounts and early access perks to our VIP guests.<br>
-🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Join the VIP List</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Join our VIP list for exclusive discounts!<br>
+🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Join Now</a><br><br>
+Type 0⃣ to return to main menu.`,
 
-    5: `📅 <strong>Booking & Availability</strong><br>
-Check availability directly via Airbnb:<br>
+    5: `🗓 <strong>Booking & Availability</strong><br>
+Check our Airbnb listings:<br>
 🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">Suite 1</a> | 
 <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a> | 
-<a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br><br>
+<a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a> | 
 <a href="https://airbnb.com/h/pompanobackyardsuite4" target="_blank">Suite 4</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Type 0⃣ to return to main menu.`,
 
-    6: `🅿️ <strong>Parking Info</strong><br>
-✔ Free private parking in front of the house.<br><br>
-Type 0️⃣ to return to main menu.`,
+    6: `🅿 <strong>Parking Info</strong><br>
+Free and private parking available in front of the house.<br><br>
+Type 0⃣ to return to main menu.`,
 
     7: `📌 <strong>Recommendations</strong><br>
-Check out our local guidebook:<br>
-🔗 <a href="https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344" target="_blank">Explore Recommendations</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Explore local tips and places:<br>
+🔗 <a href="https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344" target="_blank">View Guidebook</a><br><br>
+Type 0⃣ to return to main menu.`,
 
     8: `🏠 <strong>Long-Term Stays</strong><br>
-Yes, we offer monthly and seasonal rentals.<br>
+Monthly or seasonal stays available.<br>
 🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Request Info</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Type 0⃣ to return to main menu.`,
 
     9: `🎁 <strong>eGift Cards</strong><br>
-Give the gift of paradise!<br>
-🔗 <a href="https://www.pompanobackyard.com/gift-card" target="_blank">Send a Gift</a><br><br>
-Type 0️⃣ to return to main menu.`,
+Send a custom gift card today.<br>
+🔗 <a href="https://www.pompanobackyard.com/gift-card" target="_blank">Send Gift</a><br><br>
+Type 0⃣ to return to main menu.`,
 
     10: `🌴 <strong>About Pompano Beach</strong><br>
-Beautiful coastal city in South Florida full of sunshine and beach vibes.<br>
+Sunny coastal city in South Florida. Come relax!<br>
 🔗 <a href="https://www.pompanobackyard.com/pompanobeach" target="_blank">Learn More</a><br><br>
-Type 0️⃣ to return to main menu.`
+Type 0⃣ to return to main menu.`
   };
 
   function showMenu() {
@@ -206,7 +208,7 @@ Type 0️⃣ to return to main menu.`
     const input = msg.trim();
     if (input === "0") return showMenu();
     if (responses[input]) return responses[input];
-    return "❌ Invalid option. Please type a number from the menu or type 0️⃣ to return to the main menu.";
+    return "❌ Invalid option. Please type a number from the menu or type 0⃣ to return to the main menu.";
   }
 
   document.getElementById("chewy-icon").addEventListener("click", () => {
