@@ -37,8 +37,8 @@
       position: absolute;
       bottom: 100px;
       left: 0;
-      width: 360px;
-      height: 540px; /* aumentada */
+      width: 340px;
+      height: 440px;
       background: white;
       border-radius: 16px;
       box-shadow: 0 0 20px rgba(0,0,0,0.2);
@@ -64,7 +64,7 @@
     }
 
     #chat-messages {
-      height: 380px; /* aumentada */
+      height: 300px;
       overflow-y: auto;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -130,30 +130,30 @@
 
 <script>
   const menu = `
-Please choose a number:<br>
-1 - View all Airbnb Suites<br>
-2 - Chauffeur / Tesla Service<br>
-3 - How to get here / Address<br>
-4 - VIP Access & Perks<br>
-5 - Booking & Availability<br>
-6 - Parking info<br>
-7 - Recommendations<br>
-8 - Long-term stays<br>
-9 - eGift Card<br>
-10 - About Pompano Beach
+Please choose a number:<br><br>
+1️⃣ - View all Airbnb Suites<br>
+2️⃣ - Chauffeur / Tesla Service<br>
+3️⃣ - How to get here / Address<br>
+4️⃣ - VIP Access & Perks<br>
+5️⃣ - Booking & Availability<br>
+6️⃣ - Parking info<br>
+7️⃣ - Recommendations<br>
+8️⃣ - Long-term stays<br>
+9️⃣ - eGift Card<br>
+🔟 - About Pompano Beach
 `;
 
   const responses = {
-    1: `🏡 <strong>Pompano Backyard Suites:</strong><br><br>...`, // (restante igual)
-    2: `🚗 <strong>Chauffeur / Tesla Service:</strong><br>...`,
-    3: `📍 <strong>Getting Here / Address:</strong><br>...`,
-    4: `💸 <strong>VIP Access & Perks:</strong><br>...`,
-    5: `📅 <strong>Booking & Availability:</strong><br>...`,
-    6: `🅿️ <strong>Parking info:</strong><br>...`,
-    7: `📌 <strong>Recommendations:</strong><br>...`,
-    8: `🏠 <strong>Long-term stays:</strong><br>...`,
-    9: `🎁 <strong>eGift Cards:</strong><br>...`,
-    10: `🌴 <strong>About Pompano Beach:</strong><br>...`,
+    1: `🏡 <strong>Pompano Backyard Suites:</strong><br><br>🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">Suite 1</a> | <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a> | <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br><br>Type 0️⃣ to return to main menu.`,
+    2: `🚗 <strong>Chauffeur / Tesla Service</strong><br>Luxury Tesla rides available.<br>🔗 <a href="https://www.pompanobackyard.com/chauffeurservice" target="_blank">More Info</a><br><br>Type 0️⃣ to return to main menu.`,
+    3: `📍 <strong>Getting Here / Address</strong><br>Address sent after Airbnb booking confirmation.<br><br>Type 0️⃣ to return to main menu.`,
+    4: `💸 <strong>VIP Access & Perks</strong><br>Get early access and discounts.<br>🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Join VIP List</a><br><br>Type 0️⃣ to return to main menu.`,
+    5: `📅 <strong>Booking & Availability</strong><br>Check availability on Airbnb:<br>🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">Suite 1</a> | <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a> | <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br><br>Type 0️⃣ to return to main menu.`,
+    6: `🅿️ <strong>Parking Info</strong><br>✔ Free off-street parking in front of the home.<br><br>Type 0️⃣ to return to main menu.`,
+    7: `📌 <strong>Recommendations</strong><br>🔗 <a href="https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344" target="_blank">See local tips</a><br><br>Type 0️⃣ to return to main menu.`,
+    8: `🏠 <strong>Long-term stays</strong><br>Monthly/seasonal options available.<br>🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Request here</a><br><br>Type 0️⃣ to return to main menu.`,
+    9: `🎁 <strong>eGift Cards</strong><br>Send a digital gift!<br>🔗 <a href="https://www.pompanobackyard.com/gift-card" target="_blank">Send a Gift</a><br><br>Type 0️⃣ to return to main menu.`,
+    10: `🌴 <strong>About Pompano Beach</strong><br>Discover this sunny beach town in South Florida!<br>🔗 <a href="https://www.pompanobackyard.com/pompanobeach" target="_blank">Learn More</a><br><br>Type 0️⃣ to return to main menu.`
   };
 
   function showMenu() {
