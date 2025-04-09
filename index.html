@@ -2,22 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Chewy Widget</title>
+  <title>Chewy Mobile Widget</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     #chewy-chatbot {
       position: fixed;
-      bottom: 20px;
-      left: 20px;
+      bottom: 16px;
+      left: 16px;
       z-index: 9999;
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     #chewy-icon {
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
       cursor: pointer;
       animation: float 2s ease-in-out infinite, nod 4s ease-in-out infinite;
       display: flex;
@@ -33,31 +34,27 @@
     }
 
     #chewy-chatbox {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
       display: none;
       position: absolute;
-      bottom: 100px;
+      bottom: 75px;
       left: 0;
-      width: 400px;
-      height: 600px;
+      width: 280px;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 0 18px rgba(0,0,0,0.2);
+      padding: 14px;
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background: white;
-      border-radius: 25px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-      padding: 16px;
-      box-sizing: border-box;
-      overflow: hidden;
+      height: 500px;
     }
 
     #chewy-header {
       font-weight: bold;
-      font-size: 16px;
+      font-size: 15px;
       color: #ea580c;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -70,40 +67,41 @@
     }
 
     #chat-messages {
+      flex: 1;
       overflow-y: auto;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 8px;
+      border-radius: 6px;
+      padding: 6px;
       font-size: 13px;
-      line-height: 1.6;
+      line-height: 1.5;
+      margin-bottom: 8px;
     }
 
     #chewy-input {
-      margin-top: 10px;
       display: flex;
     }
 
     #user-input {
       flex: 1;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 6px;
-      font-size: 14px;
+      border-radius: 6px;
+      padding: 5px;
+      font-size: 13px;
     }
 
     #send-btn {
-      margin-left: 8px;
-      padding: 6px 12px;
+      margin-left: 6px;
+      padding: 6px 10px;
       background: #ea580c;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 6px;
+      font-size: 13px;
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
+      50% { transform: translateY(-4px); }
     }
 
     @keyframes nod {
@@ -122,7 +120,7 @@
 
   <div id="chewy-chatbox">
     <div id="chewy-header">
-      Hi, I'm Chewy! 🐾
+      Hi, I'm Chewy! 🦊
       <span id="chewy-close">✕</span>
     </div>
     <div id="chat-messages"></div>
@@ -134,121 +132,123 @@
 </div>
 
 <script>
-  const menu = `
-Please choose a number:<br>
-1 - View all Airbnb Suites<br>
-2 - Chauffeur / Tesla Service<br>
-3 - How to get here / Address<br>
-4 - VIP Access & Perks<br>
-5 - Booking & Availability<br>
-6 - Parking info<br>
-7 - Recommendations<br>
-8 - Long-term stays<br>
-9 - eGift Card<br>
-10 - About Pompano Beach`;
+  const chewyIcon = document.getElementById("chewy-icon");
+  const chewyBox = document.getElementById("chewy-chatbox");
+  const closeBtn = document.getElementById("chewy-close");
+  const sendBtn = document.getElementById("send-btn");
+  const inputField = document.getElementById("user-input");
+  const messages = document.getElementById("chat-messages");
 
-  const responses = {
-    1: `🏡 <strong>Pompano Backyard Suites:</strong><br><br>
-🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">Suite 1</a><br>
-🔗 <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a><br>
-🔗 <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a><br>
-🔗 <a href="https://airbnb.com/h/pompanobackyardsuite4" target="_blank">Suite 4</a><br><br>
-Type 0 to return to main menu.`,
-
-    2: `🚗 <strong>Chauffeur / Tesla Service</strong><br>
-Luxury ride with Tesla Model Y.<br>
-🔗 <a href="https://www.pompanobackyard.com/chauffeurservice" target="_blank">Book your ride</a><br><br>
-Type 0 to return to main menu.`,
-
-    3: `📍 <strong>How to Get Here</strong><br>
-Once your reservation is confirmed, the address will be sent via Airbnb.<br><br>
-Type 0 to return to main menu.`,
-
-    4: `💸 <strong>VIP Access & Perks</strong><br>
-Join our VIP list for exclusive discounts.<br>
-🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Join Now</a><br><br>
-Type 0 to return to main menu.`,
-
-    5: `📅 <strong>Booking & Availability</strong><br>
-Check on Airbnb:<br>
-🔗 <a href="https://airbnb.com/h/pompanobackyardsuite1" target="_blank">Suite 1</a> | <a href="https://airbnb.com/h/pompanobackyard2" target="_blank">Suite 2</a> | <a href="https://airbnb.com/h/pompanobackyardsuite3" target="_blank">Suite 3</a> | <a href="https://airbnb.com/h/pompanobackyardsuite4" target="_blank">Suite 4</a><br><br>
-Type 0 to return to main menu.`,
-
-    6: `🅿️ <strong>Parking Info</strong><br>
-✔ Free private parking in front of the home.<br><br>
-Type 0 to return to main menu.`,
-
-    7: `📌 <strong>Recommendations</strong><br>
-Explore our local tips:<br>
-🔗 <a href="https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344" target="_blank">View Guidebook</a><br><br>
-Type 0 to return to main menu.`,
-
-    8: `🏠 <strong>Long-Term Stays</strong><br>
-We offer monthly and seasonal rentals.<br>
-🔗 <a href="https://www.pompanobackyard.com/enjoyexclusiveperks" target="_blank">Request Info</a><br><br>
-Type 0 to return to main menu.`,
-
-    9: `🎁 <strong>eGift Cards</strong><br>
-Send the gift of travel!<br>
-🔗 <a href="https://www.pompanobackyard.com/gift-card" target="_blank">Buy eGift Card</a><br><br>
-Type 0 to return to main menu.`,
-
-    10: `🌴 <strong>About Pompano Beach</strong><br>
-Sunny beach town with chill vibes!<br>
-🔗 <a href="https://www.pompanobackyard.com/pompanobeach" target="_blank">Explore Pompano</a><br><br>
-Type 0 to return to main menu.`
-  };
-
-  function showMenu() {
-    return `👋 Hey there! I'm Chewy, your Front Desk assistant at Pompano Backyard. How can I help you today?<br><br>${menu}`;
-  }
-
-  function getResponse(msg) {
-    const input = msg.trim();
-    if (input === "0") return showMenu();
-    if (responses[input]) return responses[input];
-    return "❌ Invalid option. Please choose a number from the menu or type 0 to return.";
-  }
-
-  document.getElementById("chewy-icon").addEventListener("click", () => {
-    const box = document.getElementById("chewy-chatbox");
-    box.style.display = box.style.display === "block" ? "none" : "block";
+  chewyIcon.addEventListener("click", () => {
+    chewyBox.style.display = chewyBox.style.display === "block" ? "none" : "block";
   });
 
-  document.getElementById("chewy-close").addEventListener("click", () => {
-    document.getElementById("chewy-chatbox").style.display = "none";
+  closeBtn.addEventListener("click", () => {
+    chewyBox.style.display = "none";
   });
 
-  document.getElementById("send-btn").addEventListener("click", handleSend);
-  document.getElementById("user-input").addEventListener("keydown", function (e) {
+  sendBtn.addEventListener("click", handleSend);
+  inputField.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
       e.preventDefault();
       handleSend();
     }
   });
 
-  let firstTime = true;
-
   function handleSend() {
-    const input = document.getElementById("user-input").value.trim();
+    const input = inputField.value.trim();
     if (!input) return;
     addMessage("You", input);
-    document.getElementById("user-input").value = "";
+    inputField.value = "";
 
-    const reply = firstTime ? showMenu() : getResponse(input);
-    firstTime = false;
-    addMessage("Chewy 🐾", reply);
+    const response = getResponse(input.toLowerCase());
+    setTimeout(() => addMessage("Chewy 🦊", response), 500);
   }
 
   function addMessage(sender, text) {
     const msg = document.createElement("div");
-    msg.style.marginBottom = "16px";
+    msg.style.marginBottom = "12px";
     msg.innerHTML = `<strong>${sender}:</strong><br>${text}`;
-    const container = document.getElementById("chat-messages");
-    container.appendChild(msg);
-    container.scrollTop = container.scrollHeight;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function getResponse(input) {
+    if (["hi", "hello", "hey"].some(word => input.includes(word))) {
+      return `👋 Hey there! I'm Chewy 🦊, your Front Desk assistant at Pompano Backyard. How can I help you today?<br><br>
+      1 - View all Airbnb Suites<br>
+      2 - Chauffeur / Tesla Service<br>
+      3 - VIP Access & Perks<br>
+      4 - Parking Info<br>
+      5 - eGift Card<br>
+      6 - Pompano Beach Guide<br>
+      7 - Recommendations<br>
+      8 - Long-term stays<br>
+      9 - Booking & Availability<br>
+      10 - How to get here / Address`;
+    }
+
+    if (input.includes("1")) {
+      return `🏡 <strong>Pompano Backyard Suites</strong><br><br>
+      <strong>Suite 1:</strong> Private entrance, cozy room, private bath with spa shower, queen bed<br>
+      👉 <a href='https://airbnb.com/h/pompanobackyardsuite1' target='_blank'>Suite 1</a><br>
+      <strong>Suite 2:</strong> Cozy room, queen bed, private entrance, private bath<br>
+      👉 <a href='https://airbnb.com/h/pompanobackyard2' target='_blank'>Suite 2</a><br>
+      <strong>Suite 3 (RV):</strong> Queen bed, Smart TV, private patio<br>
+      👉 <a href='https://airbnb.com/h/pompanobackyardsuite3' target='_blank'>Suite 3</a><br>
+      <strong>Suite 4:</strong> Brand new RV Suite, private deck and AC<br>
+      👉 <a href='https://airbnb.com/h/pompanobackyardsuite4' target='_blank'>Suite 4</a>`;
+    }
+
+    if (input.includes("2")) {
+      return `🚘 Ride in style with our Tesla Model Y chauffeur service.<br>
+      👉 <a href='https://www.pompanobackyard.com/chauffeurservice' target='_blank'>Book Your Ride</a>`;
+    }
+
+    if (input.includes("3")) {
+      return `🎁 Get early access, perks and discounts!<br>
+      👉 <a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>Join the VIP List</a>`;
+    }
+
+    if (input.includes("4")) {
+      return `✅ Yes! Free private parking available right in front of the home.`;
+    }
+
+    if (input.includes("5")) {
+      return `🎁 eGift Cards are available for every occasion:<br>
+      👉 <a href='https://www.pompanobackyard.com/gift-card' target='_blank'>Buy a Gift Card</a>`;
+    }
+
+    if (input.includes("6")) {
+      return `🌴 Discover Pompano Beach like a local:<br>
+      👉 <a href='https://www.pompanobackyard.com/pompanobeach' target='_blank'>See Recommendations</a>`;
+    }
+
+    if (input.includes("7")) {
+      return `📌 Local recommendations for food, fun, and nature:<br>
+      👉 <a href='https://www.airbnb.com/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F4453344' target='_blank'>Check the Pompano Guidebook</a>`;
+    }
+
+    if (input.includes("8")) {
+      return `📅 Interested in monthly or seasonal stays?<br>
+      👉 <a href='https://www.pompanobackyard.com/enjoyexclusiveperks' target='_blank'>Request Details Here</a>`;
+    }
+
+    if (input.includes("9")) {
+      return `📅 Check booking availability directly on Airbnb:<br>
+      <a href='https://airbnb.com/h/pompanobackyardsuite1' target='_blank'>Suite 1</a> |
+      <a href='https://airbnb.com/h/pompanobackyard2' target='_blank'>Suite 2</a> |
+      <a href='https://airbnb.com/h/pompanobackyardsuite3' target='_blank'>Suite 3</a> |
+      <a href='https://airbnb.com/h/pompanobackyardsuite4' target='_blank'>Suite 4</a>`;
+    }
+
+    if (input.includes("10")) {
+      return `📍 How to Get Here:<br>
+      Once your Airbnb reservation is confirmed, we’ll share the exact address. See you soon!`;
+    }
+
+    return "⚠️ Sorry, I didn't understand. Type a number like 1, 2 or 3 to get started.";
   }
 </script>
-
 </body>
 </html>
