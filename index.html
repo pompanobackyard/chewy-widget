@@ -35,19 +35,22 @@
 
     #chewy-chatbox {
       display: none;
-      position: absolute;
-      bottom: 75px;
-      left: 0;
+      position: fixed;
+      bottom: 90px;
+      left: 16px;
       width: 280px;
       background: white;
       border-radius: 14px;
       box-shadow: 0 0 18px rgba(0,0,0,0.2);
       padding: 14px;
       box-sizing: border-box;
-      display: flex;
       flex-direction: column;
       justify-content: space-between;
       height: 500px;
+    }
+
+    #chewy-chatbox.visible {
+      display: flex;
     }
 
     #chewy-header {
@@ -140,11 +143,11 @@
   const messages = document.getElementById("chat-messages");
 
   chewyIcon.addEventListener("click", () => {
-    chewyBox.style.display = chewyBox.style.display === "block" ? "none" : "block";
+    chewyBox.classList.toggle("visible");
   });
 
   closeBtn.addEventListener("click", () => {
-    chewyBox.style.display = "none";
+    chewyBox.classList.remove("visible");
   });
 
   sendBtn.addEventListener("click", handleSend);
